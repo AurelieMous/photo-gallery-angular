@@ -16,8 +16,8 @@ export class PexelsService {
 
   // PHOTOS
   // Récupérer toutes les photos
-  getPhotos(): Observable<PexelsResponse> {
-    return this.http.get<PexelsResponse>(`${this.apiUrl}/curated`, {
+  getPhotos(page: number = 1, per_page: number = 80): Observable<PexelsResponse> {
+    return this.http.get<PexelsResponse>(`${this.apiUrl}/curated?page=${page}&per_page=${per_page}`, {
       headers: { 'Authorization': this.apiKey }
     });
   }
@@ -30,8 +30,8 @@ export class PexelsService {
   }
 
   // Barre de recherche
-  searchForPhotos(query: string) {
-    return this.http.get(`${this.apiUrl}/search?query=${query}`, {
+  searchPhotos(query: string, page: number = 1, per_page: number = 80): Observable<PexelsResponse> {
+    return this.http.get<PexelsResponse>(`${this.apiUrl}/search?query=${query}&${page}&per_page=${per_page}&fr-FR`, {
       headers: { 'Authorization': this.apiKey }
     });
   }
