@@ -2,11 +2,12 @@ import {Component, inject, OnInit, signal} from '@angular/core';
 import {PexelsService} from '../services/pexels.service';
 import {Photo} from '../models/photo.interface';
 import {ImgCardComponent} from './img-card/img-card';
+import {RouterLink} from '@angular/router';
 
 
 @Component({
   selector: 'app-home',
-  imports: [ImgCardComponent],
+  imports: [ImgCardComponent, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

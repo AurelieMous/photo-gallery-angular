@@ -1,0 +1,29 @@
+<div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+  <a [routerLink]="['/photo', photo.id]">
+    <!-- Image container -->
+    <div class="p-2">
+      <img
+        [src]="photo.src.large"
+        alt="Photo exemple"
+        class="w-full h-64 object-cover rounded"
+      />
+    </div>
+  </a>
+
+    <!-- Photographer info -->
+    <div class="px-4 pb-4">
+      <p class="text-sm text-gray-600">
+        Photo par <span class="font-medium text-gray-800">{{photo.photographer}}</span>
+      </p>
+      <a [href]="photo.photographer_url"
+         class="text-blue-600 font-semibold relative hover:text-blue-800
+            after:content-[''] after:absolute after:bottom-0 after:left-0
+            after:w-0 after:h-0.5 after:bg-blue-600
+            after:transition-all after:duration-300
+            hover:after:w-full"
+         target="_blank"
+         rel="noopener noreferrer">
+        Profil
+      </a>
+    </div>
+</div>
