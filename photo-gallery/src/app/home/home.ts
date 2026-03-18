@@ -10,7 +10,7 @@ import {PaginationComponent} from '../shared/pagination/pagination';
 
 @Component({
   selector: 'app-home',
-  imports: [ImgCardComponent, RouterLink, SearchBarComponent, FormsModule, PaginationComponent],
+  imports: [ImgCardComponent, SearchBarComponent, FormsModule, PaginationComponent],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -44,8 +44,6 @@ export class HomeComponent implements OnInit {
       this.currentSearch.set(query);
       this.currentPage.set(page);
 
-      console.log('Query param changé:', query); // Pour debugger
-
       if (query) {
         this.searchPhotos(query, page);
       } else {
@@ -55,7 +53,6 @@ export class HomeComponent implements OnInit {
   }
 
   search(query: string) {
-    console.log('Recherche demandée:', query);
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {search: query},
@@ -85,12 +82,12 @@ export class HomeComponent implements OnInit {
 
   // Méthode 1 : Charger les photos par défaut (curées)
   private loadCuratedPhotos(page: number = 1){
-    console.log('Chargement des photos par défaut...');
     this.isLoading.set(true);
 
     this.pexelsService.getPhotos(page, this.perPage).subscribe({
       next: (data) => {
         this.photos.set(data.photos);
+        this.totalResults.set(data.total_results);
         this.isLoading.set(false);
       },
       error: (err) => {
@@ -101,11 +98,11 @@ export class HomeComponent implements OnInit {
   }
 
   private searchPhotos(query: string, page: number = 1) {
-    console.log('Recherche de photos pour:', query);
     this.isLoading.set(true);
     this.pexelsService.searchPhotos(query, page, this.perPage).subscribe({
       next: (data) => {
         this.photos.set(data.photos);
+        this.totalResults.set(data.total_results);
         this.isLoading.set(false);
       },
       error: (err) => {

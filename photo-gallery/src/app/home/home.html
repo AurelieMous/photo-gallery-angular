@@ -10,7 +10,7 @@
     <p class="text-center text-xl">Chargement...</p>
   } @else {
     <!-- Grille de photos - 4 COLONNES -->
-    <div class="max-w-[1800px] mx-auto">
+    <div class="max-w-450 mx-auto">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         @for (photo of photos(); track photo.id) {
           <app-img-card [photo]="photo" />
