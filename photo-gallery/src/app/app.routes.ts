@@ -4,6 +4,7 @@ import {AboutComponent} from './about/about';
 import {CollectionComponent} from './collection/collection';
 import {VideosComponent} from './videos/videos';
 import {ImgDetailComponent} from './home/img-detail/img-detail';
+import {CollectionDetailComponent} from './collection/collection-detail/collection-detail';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,10 @@ export const routes: Routes = [
   {
     path: 'photo/:id',
     component: ImgDetailComponent
+  },
+  {
+    path: 'collection/:id',
+    component: CollectionDetailComponent
   },
   {
     path: '**',

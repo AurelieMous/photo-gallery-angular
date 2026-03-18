@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {PexelsResponse, Photo} from '../models/photo.interface';
 import {Observable} from 'rxjs';
+import {Collection, CollectionDetail, PexelsResponseCollections} from '../models/collection.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -39,25 +40,20 @@ export class PexelsService {
   // COLLECTIONS
 
   // Récupérer toutes les collections
-  getCollections() {
-    return this.http.get(`${this.apiUrl}/collections`, {
+  getCollections(url?: string) {
+    const endpoint = url ?? `${this.apiUrl}/collections/featured`;
+    return this.http.get<PexelsResponseCollections>(endpoint, {
       headers: { 'Authorization': this.apiKey }
     });
   }
 
   // Récupérer une collection par son id
-  getCollection(id: string) {
-    return this.http.get(`${this.apiUrl}/collections/${id}`, {})
+  getOneCollection(id: string) {
+    return this.http.get<CollectionDetail>(`${this.apiUrl}/collections/${id}`, {
+      headers: { 'Authorization': this.apiKey }
+    })
   }
 
-  futuredCollections() {
-    return this.http.get(`${this.apiUrl}/collections/featured`, {})
-  }
-
-  // Récupérer mes collections
-  getMyCollections() {
-    return this.http.get(`${this.apiUrl}/collections/mine`, {})
-  }
 
   // VIDEOS
   // Récupérer des videos
