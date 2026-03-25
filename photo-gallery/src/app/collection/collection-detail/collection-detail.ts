@@ -12,11 +12,12 @@ import { Photo } from '../../models/photo.interface';
 import { CommonModule } from '@angular/common';
 import {filterPhotos, filterVideos, mediaToPhoto, separateMedia} from '../../helpers';
 import {PaginationComponent} from '../../shared/pagination/pagination';
+import {ErrorStateComponent} from '../../shared/error-state/error-state';
 
 @Component({
   selector: 'app-collection-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, ImgCardComponent, PaginationComponent],
+  imports: [CommonModule, RouterLink, ImgCardComponent, PaginationComponent, ErrorStateComponent],
   templateUrl: './collection-detail.html',
   styleUrl: './collection-detail.css',
 })

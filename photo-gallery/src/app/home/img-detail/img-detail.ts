@@ -2,11 +2,13 @@ import {Component, inject, signal} from '@angular/core';
 import {PexelsService} from '../../services/pexels.service';
 import {Photo} from '../../models/photo.interface';
 import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ErrorStateComponent} from '../../shared/error-state/error-state';
 
 @Component({
   selector: 'app-img-detail',
   imports: [
-    RouterLink
+    RouterLink,
+    ErrorStateComponent
   ],
   templateUrl: './img-detail.html',
   styleUrl: './img-detail.css',
@@ -48,7 +50,7 @@ export class ImgDetailComponent {
         this.isLoading.set(false);
       },
       error: (err) => {
-        this.error.set('Impossible de charger la photo')
+        this.error.set(`Impossible de charger la photo : ${err.message}`)
         this.isLoading.set(false);
       }
     })

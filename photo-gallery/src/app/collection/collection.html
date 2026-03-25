@@ -4,7 +4,12 @@
   </h1>
 
   @if (error()) {
-    <p class="text-center text-red-500">{{ error() }}</p>
+    <app-error-state
+      [title]="'Impossible de charger les collections'"
+      [message]="error()"
+      [buttonText]="'Retour aux photos'"
+      [buttonLink]="'/'"
+    />
   }
 
   <div class="max-w-[2000px] mx-auto">

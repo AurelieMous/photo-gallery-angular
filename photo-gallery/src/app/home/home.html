@@ -1,11 +1,18 @@
 <section class="container mx-auto px-4 py-8">
   <!-- Titre centré et stylisé -->
   <h1 class="text-5xl font-bold text-gray-800 text-center mb-10">
-    Photo du moment
+    Photos du moment
   </h1>
   <!-- Search bar -->
   <app-search-bar (search)="search($event)" />
-
+  @if (error()) {
+    <app-error-state
+      [title]="'Impossible de charger les photos'"
+      [message]="error()"
+      [buttonText]="'Réessayer'"
+      [buttonLink]="'/'"
+    />
+  }
   @if (isLoading()) {
     <div class="flex justify-center items-center py-12">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>

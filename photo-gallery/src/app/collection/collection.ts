@@ -2,10 +2,11 @@ import {Component, inject, signal, OnInit, OnDestroy, ElementRef, ViewChild, Aft
 import {PexelsService} from '../services/pexels.service';
 import {Collection} from '../models/collection.interface';
 import {CollectionCardComponent} from './collection-card/collection-card';
+import {ErrorStateComponent} from '../shared/error-state/error-state';
 
 @Component({
   selector: 'app-collection',
-  imports: [CollectionCardComponent],
+  imports: [CollectionCardComponent, ErrorStateComponent],
   templateUrl: './collection.html',
   styleUrl: './collection.css',
 })
@@ -69,7 +70,7 @@ export class CollectionComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (err) => {
         this.isLoading.set(false);
-        this.error.set(`Impossible de charger les collections : ${err}`);
+        this.error.set(`Impossible de charger les collections : ${err.message}`);
       }
     });
   }

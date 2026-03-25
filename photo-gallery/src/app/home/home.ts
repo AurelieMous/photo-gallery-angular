@@ -6,11 +6,12 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {SearchBarComponent} from '../shared/search-bar/search-bar';
 import {FormsModule} from '@angular/forms';
 import {PaginationComponent} from '../shared/pagination/pagination';
+import {ErrorStateComponent} from '../shared/error-state/error-state';
 
 
 @Component({
   selector: 'app-home',
-  imports: [ImgCardComponent, SearchBarComponent, FormsModule, PaginationComponent],
+  imports: [ImgCardComponent, SearchBarComponent, FormsModule, PaginationComponent, ErrorStateComponent],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -91,7 +92,7 @@ export class HomeComponent implements OnInit {
         this.isLoading.set(false);
       },
       error: (err) => {
-        this.error.set(`Impossible de charger les photos : ${err}`);
+        this.error.set(`Impossible de charger les photos : ${err.message}`);
         this.isLoading.set(false);
       }
     });
