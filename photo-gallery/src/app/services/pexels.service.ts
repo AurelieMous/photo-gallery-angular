@@ -48,8 +48,14 @@ export class PexelsService {
   }
 
   // Récupérer une collection par son id
-  getOneCollection(id: string) {
-    return this.http.get<CollectionDetail>(`${this.apiUrl}/collections/${id}`, {
+  getOneCollection(id: string, page?: number, per_page?: number) {
+    if (!page && !per_page)  {
+      return this.http.get<CollectionDetail>(`${this.apiUrl}/collections/${id}`, {
+        headers: { 'Authorization': this.apiKey }
+      });
+    }
+
+    return this.http.get<CollectionDetail>(`${this.apiUrl}/collections/${id}?page=${page}per_page=${per_page}`, {
       headers: { 'Authorization': this.apiKey }
     })
   }

@@ -40,8 +40,9 @@
         <p class="text-gray-400 text-sm italic">Aucune description disponible</p>
       }
     </div>
-
+    <!-- Passer la collection complète en state pour récupérer le titre et la description-->
     <a [routerLink]="['/collection', collection.id]"
+       [state]="{ collection: collection }"
        queryParamsHandling="preserve"
        class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium transition-colors group">
       Voir la collection

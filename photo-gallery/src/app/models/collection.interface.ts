@@ -1,6 +1,6 @@
 import {VideoFile, VideoPicture} from './video.interface';
 import {User} from './user.interface';
-import {Src} from './photo.interface';
+import {Photo, Src} from './photo.interface';
 
 export interface Collection {
   id: string
@@ -60,4 +60,3 @@ export interface Media {
   full_res?: any;
   tags?: string[];
 }
-

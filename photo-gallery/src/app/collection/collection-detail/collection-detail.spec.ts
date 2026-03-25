@@ -1,18 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {CollectionDetailComponent} from './collection-detail';
+import {CollectionDetail} from '../../models/collection.interface';
 
-import { CollectionDetail } from './collection-detail';
 
 describe('CollectionDetail', () => {
-  let component: CollectionDetail;
+  let component: CollectionDetailComponent;
   let fixture: ComponentFixture<CollectionDetail>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CollectionDetail]
+      imports: [CollectionDetailComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CollectionDetail);
+    fixture = TestBed.createComponent(CollectionDetailComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
