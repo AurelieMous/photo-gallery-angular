@@ -6,7 +6,7 @@
     @if (firstMedia(); as media) {
       <img
         [src]="media.type === 'Photo' ? media.src?.large : media.image"
-        [alt]="collection.title"
+        [alt]="collection().title"
         class="absolute inset-0 w-full h-full object-cover"
       />
     } @else {
@@ -22,7 +22,7 @@
 
     <!-- Badge nombre de photos -->
     <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-black px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
-      {{ collection.photos_count }} photos
+      {{ collection().photos_count }} photos
     </div>
   </div>
 
@@ -30,19 +30,19 @@
   <div class="p-6 flex-grow flex flex-col">
 
     <h3 class="text-xl font-bold text-gray-900 mb-2">
-      {{ collection.title }}
+      {{ collection().title }}
     </h3>
 
     <div class="flex-grow mb-4">
-      @if (collection.description) {
-        <p class="text-gray-600 text-sm line-clamp-3">{{ collection.description }}</p>
+      @if (collection().description) {
+        <p class="text-gray-600 text-sm line-clamp-3">{{ collection().description }}</p>
       } @else {
         <p class="text-gray-400 text-sm italic">Aucune description disponible</p>
       }
     </div>
     <!-- Passer la collection complète en state pour récupérer le titre et la description-->
-    <a [routerLink]="['/collection', collection.id]"
-       [state]="{ collection: collection }"
+    <a [routerLink]="['/collection', collection().id]"
+       [state]="{ collection: collection() }"
        queryParamsHandling="preserve"
        class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium transition-colors group">
       Voir la collection

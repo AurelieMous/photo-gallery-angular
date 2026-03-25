@@ -66,8 +66,7 @@
 
         <!-- Vidéos -->
         @for (video of videos(); track video.id) {
-          <!-- app-video a implémenter -->
-
+          <app-videos-card [video]="video">
         }
 
         <!-- Empty state -->

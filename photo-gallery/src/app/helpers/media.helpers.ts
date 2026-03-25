@@ -1,6 +1,6 @@
 import {Media} from '../models/collection.interface';
 import {Photo} from '../models/photo.interface';
-import {VideoFile} from '../models/video.interface';
+import {Video, VideoFile} from '../models/video.interface';
 
 /*
 * Convertir un objet Media en un objet Photo
@@ -32,6 +32,34 @@ export function mediaToPhoto(media: Media): Photo | null {
     liked: media.liked || false,
     alt: media.alt || ''
   }
+}
+
+/**
+ * Convertir un objet Media en un objet Video
+ * @param media
+ * @returns Video | null
+ */
+export function mediaToVideo(media: Media): Video | null {
+  // Vérifier que c'est bien une vidéo avec toutes les propriétés requises
+  if (
+    media.type !== 'Video' ||
+    !media.video_files ||
+    !media.user
+  ) {
+    return null;
+  }
+
+  return {
+    id: media.id,
+    width: media.width.toString(),
+    height: media.height.toString(),
+    url: media.url,
+    image: media.image || '',
+    duration: media.duration || 0,
+    user: media.user,
+    video_files: media.video_files,
+    videos_pictures: media.video_pictures || []
+  };
 }
 
 /**
@@ -87,5 +115,25 @@ export function separateMedia(mediaList: Media[]): { photos: Photo[], videos: Me
   return {
     photos: filterPhotos(mediaList),
     videos: filterVideos(mediaList)
+  };
+}
+
+/**
+ * Filtre et convertit les vidéos en Video[]
+ */
+export function filterAndConvertVideos(mediaList: Media[]): Video[] {
+  return mediaList
+    .filter(isVideo)
+    .map(mediaToVideo)
+    .filter((video): video is Video => video !== null);
+}
+
+/**
+ * Sépare et convertit photos et vidéos
+ */
+export function separateAndConvertMedia(mediaList: Media[]): { photos: Photo[], videos: Video[] } {
+  return {
+    photos: filterPhotos(mediaList),
+    videos: filterAndConvertVideos(mediaList)
   };
 }

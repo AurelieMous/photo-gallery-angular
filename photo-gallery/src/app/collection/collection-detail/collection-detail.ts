@@ -13,11 +13,13 @@ import { CommonModule } from '@angular/common';
 import {filterPhotos, filterVideos, mediaToPhoto, separateMedia} from '../../helpers';
 import {PaginationComponent} from '../../shared/pagination/pagination';
 import {ErrorStateComponent} from '../../shared/error-state/error-state';
+import {VideosCardComponent} from '../../videos/videos-card/videos-card';
+import {separateAndConvertMedia} from '../../helpers/media.helpers';
 
 @Component({
   selector: 'app-collection-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, ImgCardComponent, PaginationComponent, ErrorStateComponent],
+  imports: [CommonModule, RouterLink, ImgCardComponent, PaginationComponent, ErrorStateComponent, VideosCardComponent],
   templateUrl: './collection-detail.html',
   styleUrl: './collection-detail.css',
 })
@@ -97,8 +99,9 @@ export class CollectionDetailComponent implements OnInit {
         this.collectionDetails.set(data);
         this.currentPage.set(page)
 
-        // Filtrer photos et vidéos en utilisant le helper
-        const { photos, videos } = separateMedia(data.media);
+        // Séparer et convertir photos et vidéos
+        const { photos, videos } = separateAndConvertMedia(data.media);
+
         this.photos.set(photos);
         this.videos.set(videos);
 

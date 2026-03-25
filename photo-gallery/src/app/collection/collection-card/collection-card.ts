@@ -1,4 +1,4 @@
-import {Component, inject, Input, signal} from '@angular/core';
+import {Component, inject, input, Input, signal} from '@angular/core';
 import {Collection, CollectionDetail, Media} from '../../models/collection.interface';
 import {RouterLink} from '@angular/router';
 import {PexelsService} from '../../services/pexels.service';
@@ -12,7 +12,7 @@ import {PexelsService} from '../../services/pexels.service';
   styleUrl: './collection-card.css',
 })
 export class CollectionCardComponent {
-  @Input() collection!: Collection; // données du parent
+  collection = input.required<Collection>()// données du parent
 
   pexelsService = inject(PexelsService);
 
@@ -23,7 +23,7 @@ export class CollectionCardComponent {
   }
 
   private getFirstMedia() {
-    this.pexelsService.getOneCollection(this.collection.id).subscribe({
+    this.pexelsService.getOneCollection(this.collection().id).subscribe({
       next: (response: CollectionDetail) => {
         const first = response.media?.[0] ?? null;
         this.firstMedia.set(first);

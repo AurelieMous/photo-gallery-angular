@@ -1,0 +1,56 @@
+<div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+  <!-- Container vidéo/image -->
+  <div class="relative p-3"
+       (mouseenter)="playVideo()"
+       (mouseleave)="pauseVideo()">
+
+    <!-- Image (cachée quand la vidéo joue) -->
+    <img
+      [src]="video().image"
+      [alt]="'Aperçu de la vidéo'"
+      class="w-full h-[500px] object-cover rounded transition-opacity duration-300"
+      [class.opacity-0]="isPlaying"
+      [class.opacity-100]="!isPlaying"
+    />
+
+    <!-- Vidéo (toujours présente, cachée par défaut) -->
+    <video
+      #videoPlayer
+      [src]="videoUrl()"
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      class="absolute top-3 left-3 right-3 w-[calc(100%-24px)] h-[500px] object-cover rounded transition-opacity duration-300"
+      [class.opacity-0]="!isPlaying"
+      [class.opacity-100]="isPlaying"
+    ></video>
+
+    <!-- Icône Play (visible au hover, cachée pendant la lecture) -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300"
+         [class.opacity-0]="isPlaying">
+      <div class="bg-white/90 rounded-full p-6 group-hover:scale-110 transition-transform shadow-xl">
+        <svg class="w-16 h-16 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info vidéo -->
+  <div class="px-6 pb-6">
+    <p class="text-base text-gray-600 mb-2">
+      Vidéo par <span class="font-semibold text-gray-900 text-lg">{{ video().user.name }}</span>
+    </p>
+    <a
+    [href]="video().user.url"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium transition-colors group">
+      <span>Voir le profil sur Pexels</span>
+    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+    </svg>
+    </a>
+  </div>
+</div>

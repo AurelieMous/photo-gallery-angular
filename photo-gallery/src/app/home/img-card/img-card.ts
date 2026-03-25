@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, input, Input} from '@angular/core';
 
 import {Photo} from '../../models/photo.interface';
 import {RouterLink} from '@angular/router';
@@ -12,5 +12,5 @@ import {RouterLink} from '@angular/router';
   styleUrl: './img-card.css',
 })
 export class ImgCardComponent {
-  @Input() photo!: Photo; // recoit les donnée du parent
+  photo = input.required<Photo>()// recoit les donnée du parent
 }

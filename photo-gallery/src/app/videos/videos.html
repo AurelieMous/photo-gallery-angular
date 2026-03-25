@@ -1,1 +1,52 @@
-<p>videos works!</p>
+<section class="container mx-auto px-4 py-8">
+  <!-- Titre centré et stylisé -->
+  <h1 class="text-5xl font-bold text-gray-800 text-center mb-10">
+    Vidéos du moment
+  </h1>
+  <!-- Search bar -->
+  <!-- <app-search-bar (search)="search($event)" /> -->
+  @if (error()) {
+    <app-error-state
+      [title]="'Impossible de charger les vidéos'"
+      [message]="error()"
+      [buttonText]="'Réessayer'"
+      [buttonLink]="'/'"
+    />
+  }
+  @if (isLoading()) {
+    <div class="flex justify-center items-center py-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+  } @else {
+    <!-- Grille de photos - 4 COLONNES -->
+    <div class="max-w-600 mx-auto">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        @for (video of videos(); track video.id) {
+          <app-videos-card [video]="video" />
+        } <!--@empty {
+          /* Aucun résultat
+          <div class="col-span-full text-center py-12">
+            <svg class="mx-auto h-24 w-24 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Aucun résultat trouvé</h3>
+            <p class="text-gray-500 mb-4">Essayez un autre mot-clé</p>
+            <button
+              (click)="search('')"
+              class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              Voir toutes les photos
+            </button>
+          </div>
+        } */ -->
+      </div>
+    </div>
+    @if (videos().length > 0) {
+      <app-pagination
+        [currentPage]="currentPage()"
+        [totalResults]="totalResults()"
+        [perPage]="perPage"
+        (pageChange)="onPageChange($event)"
+      />
+    }
+  }
+</section>
