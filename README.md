@@ -127,8 +127,6 @@ npm run watch
 * Collection statistics and metadata
 * Navigate through collection pages
 
-🙏 Credits
-
 ## Credits
 
 * [Pexels](https://www.pexels.com/) - Free photo & video API
