@@ -1,0 +1,58 @@
+<div class="h-full bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
+
+  <!-- Image / Placeholder -->
+  <div class="relative h-64 bg-gray-100 flex items-center justify-center flex-shrink-0">
+
+    @if (firstMedia(); as media) {
+      <img
+        [src]="media.type === 'Photo' ? media.src?.large : media.image"
+        [alt]="collection().title"
+        class="absolute inset-0 w-full h-full object-cover"
+      />
+    } @else {
+      <!-- Skeleton loader pendant le chargement -->
+      <div class="absolute inset-0 bg-gray-200 animate-pulse"></div>
+      <svg class="w-16 h-16 text-gray-400 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+      </svg>
+    }
+
+    <!-- Overlay gradient pour lisibilité du badge -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent pointer-events-none"></div>
+
+    <!-- Badge nombre de photos -->
+    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-black px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
+      {{ collection().photos_count }} photos
+    </div>
+    <!-- Badge nombre de videos-->
+    <div class="absolute top-12 right-4 bg-white/90 backdrop-blur-sm text-black px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
+      {{ collection().videos_count }} vidéos
+    </div>
+  </div>
+
+  <!-- Contenu -->
+  <div class="p-6 flex-grow flex flex-col">
+
+    <h3 class="text-xl font-bold text-gray-900 mb-2">
+      {{ collection().title }}
+    </h3>
+
+    <div class="flex-grow mb-4">
+      @if (collection().description) {
+        <p class="text-gray-600 text-sm line-clamp-3">{{ collection().description }}</p>
+      } @else {
+        <p class="text-gray-400 text-sm italic">Aucune description disponible</p>
+      }
+    </div>
+    <!-- Passer la collection complète en state pour récupérer le titre et la description-->
+    <a [routerLink]="['/collection', collection().id]"
+       [state]="{ collection: collection(), photo_count: collection().photos_count, video_count: collection().videos_count }"
+       queryParamsHandling="preserve"
+       class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium transition-colors group">
+      Voir la collection
+      <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+      </svg>
+    </a>
+  </div>
+</div>

@@ -1,3 +1,38 @@
 import { Routes } from '@angular/router';
+import {HomeComponent} from './home/home';
+import {CollectionComponent} from './collection/collection';
+import {VideosComponent} from './videos/videos';
+import {ImgDetailComponent} from './home/img-detail/img-detail';
+import {CollectionDetailComponent} from './collection/collection-detail/collection-detail';
+import {VideosDetailComponent} from './videos/videos-detail/videos-detail';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'collection',
+    component: CollectionComponent
+  },
+  {
+    path: 'videos',
+    component: VideosComponent
+  },
+  {
+    path: 'videos/:id',
+    component: VideosDetailComponent
+  },
+  {
+    path: 'photo/:id',
+    component: ImgDetailComponent
+  },
+  {
+    path: 'collection/:id',
+    component: CollectionDetailComponent
+  },
+  {
+    path: '**',
+    redirectTo: '/'
+  }
+];

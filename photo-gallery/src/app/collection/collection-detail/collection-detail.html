@@ -1,0 +1,89 @@
+<section class="container mx-auto px-4 py-8">
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="flex justify-center items-center py-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+  }
+  @else if (error()) {
+    <!-- Error -->
+    <app-error-state
+      [title]="'Collection introuvable'"
+      [message]="error()"
+      [buttonText]="'Retour aux collections'"
+      [buttonLink]="'/collections'"
+    />
+  }
+  @else {
+    <!-- Success -->
+    <!-- Header -->
+    <div class="mb-8">
+      <a routerLink="/collection"
+         class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors group">
+        <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        <span class="font-medium">Retour aux collections</span>
+      </a>
+    </div>
+
+    <!-- Titre et description -->
+    @if (collectionInfo()) {
+      <h1 class="text-5xl font-bold text-gray-800 text-center mb-4">
+        {{ collectionInfo()!.title }}
+      </h1>
+
+      @if (collectionInfo()!.description) {
+        <p class="text-xl text-gray-600 text-center mb-10">
+          {{ collectionInfo()!.description }}
+        </p>
+      }
+    } @else {
+      <h1 class="text-5xl font-bold text-gray-800 text-center mb-10">
+        Collection
+      </h1>
+    }
+
+    <!-- Stats -->
+    <div class="flex justify-center gap-8 mb-10">
+      <div class="text-center">
+        <p class="text-3xl font-bold text-gray-900">{{ collectionInfo()!.photos_count }}</p>
+        <p class="text-gray-600">Photos</p>
+      </div>
+      <div class="text-center">
+        <p class="text-3xl font-bold text-gray-900">{{ collectionInfo()!.videos_count }}</p>
+        <p class="text-gray-600">Vidéos</p>
+      </div>
+    </div>
+
+    <!-- Grille de médias -->
+    <div class="max-w-[2000px] mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 items-stretch">
+        <!-- Photos -->
+        @for (photo of photos(); track photo.id) {
+          <app-img-card [photo]="photo" />
+        }
+
+        <!-- Vidéos -->
+        @for (video of videos(); track video.id) {
+          <app-videos-card [video]="video"/>
+        }
+
+        <!-- Empty state -->
+        @if (photos().length === 0 && videos().length === 0) {
+          <div class="col-span-full text-center py-12">
+            <p class="text-gray-500">Aucun média dans cette collection</p>
+          </div>
+        }
+      </div>
+    </div>
+  }
+  @if (collectionDetails()) {
+    <app-pagination
+      [currentPage]="currentPage()"
+      [totalResults]="totalResults()"
+      [perPage]="perPage"
+      (pageChange)="onPageChange($event)"
+    />
+  }
+</section>

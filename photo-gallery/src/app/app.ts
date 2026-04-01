@@ -1,12 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import {NavbarComponent} from './navbar/navbar';
+import {FooterComponent} from './footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [NavbarComponent, RouterOutlet, FooterComponent],
   templateUrl: './app.html',
+  standalone: true,
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('photo-gallery');
+  title = 'Prisme';
 }

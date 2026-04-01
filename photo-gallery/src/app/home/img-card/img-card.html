@@ -1,0 +1,29 @@
+<div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+  <a [routerLink]="['/photo', photo().id]" queryParamsHandling="preserve">
+    <!-- Image container - TRÈS LARGE -->
+    <div class="p-3">
+      <img
+        [src]="photo().src.large"
+        [alt]="photo().alt || 'Photo'"
+        class="w-full h-[500px] object-cover rounded"
+      />
+    </div>
+  </a>
+
+  <!-- Photographer info -->
+  <div class="px-6 pb-6">
+    <p class="text-base text-gray-600 mb-2">
+      Photo par <span class="font-semibold text-gray-900 text-lg">{{photo().photographer}}</span>
+    </p>
+    <a
+    [href]="photo().photographer_url"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium transition-colors group">
+    <span>Voir le profil sur Pexels</span>
+    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+    </svg>
+    </a>
+  </div>
+</div>

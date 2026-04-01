@@ -1,0 +1,39 @@
+<section class="container mx-auto px-4 py-8">
+  <h1 class="text-5xl font-bold text-gray-800 text-center mb-10">
+    Collections du moment
+  </h1>
+
+  @if (error()) {
+    <app-error-state
+      [title]="'Impossible de charger les collections'"
+      [message]="error()"
+      [buttonText]="'Retour aux photos'"
+      [buttonLink]="'/'"
+    />
+  }
+
+  <div class="max-w-[2000px] mx-auto">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch">
+      @for (collection of collections(); track collection.id) {
+        <app-collection-card [collection]="collection" />
+      } @empty {
+        @if (isLoading()) {
+          <div class="flex justify-center items-center py-12">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+
+  <!-- Loader + ancre pour l'Intersection Observer -->
+  <div #scrollAnchor class="flex justify-center py-8">
+    @if (isLoading()) {
+      <div class="flex justify-center items-center py-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    } @else if (!nextPage()) {
+      <p class="text-gray-400 text-sm">Toutes les collections ont été chargées</p>
+    }
+  </div>
+</section>
