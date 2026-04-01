@@ -56,7 +56,7 @@ export class PexelsService {
       });
     }
 
-    return this.http.get<CollectionDetail>(`${this.apiUrl}/collections/${id}?page=${page}per_page=${per_page}`, {
+    return this.http.get<CollectionDetail>(`${this.apiUrl}/collections/${id}?page=${page}&per_page=${per_page}`, {
       headers: { 'Authorization': this.apiKey }
     })
   }

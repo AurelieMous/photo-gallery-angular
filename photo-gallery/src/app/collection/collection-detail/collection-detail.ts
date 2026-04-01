@@ -67,8 +67,11 @@ export class CollectionDetailComponent implements OnInit {
     })
 
     // Récupérer les infos passées en state depuis la navigation
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras?.state as { collection?: Collection } | undefined;
+    const state = history.state as {
+      collection?: Collection;
+      photo_count?: number;
+      video_count?: number;
+    };
 
     if (state?.collection) {
       this.collectionInfo.set(state.collection);
@@ -99,6 +102,7 @@ export class CollectionDetailComponent implements OnInit {
 
         this.collectionDetails.set(data);
         this.currentPage.set(page)
+        this.totalResults.set(data.total_results);
 
         // Séparer et convertir photos et vidéos
         const { photos, videos } = separateAndConvertMedia(data.media);
