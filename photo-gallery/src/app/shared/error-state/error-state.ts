@@ -8,6 +8,7 @@ import {RouterLink} from '@angular/router';
   ],
   templateUrl: './error-state.html',
   styleUrl: './error-state.css',
+  standalone: true
 })
 export class ErrorStateComponent {
   // Input

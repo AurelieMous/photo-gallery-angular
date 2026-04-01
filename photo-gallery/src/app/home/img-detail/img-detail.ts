@@ -1,7 +1,8 @@
 import {Component, inject, signal} from '@angular/core';
 import {PexelsService} from '../../services/pexels.service';
 import {Photo} from '../../models/photo.interface';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {Location} from '@angular/common';
 import {ErrorStateComponent} from '../../shared/error-state/error-state';
 
 @Component({
@@ -12,11 +13,14 @@ import {ErrorStateComponent} from '../../shared/error-state/error-state';
   ],
   templateUrl: './img-detail.html',
   styleUrl: './img-detail.css',
+  standalone: true
 })
 export class ImgDetailComponent {
     // injecter le service
   private pexelsService = inject(PexelsService);
   route = inject(ActivatedRoute);
+  router = inject(Router);
+  location = inject(Location);
 
   error = signal('');
   isLoading = signal(false);
@@ -54,5 +58,9 @@ export class ImgDetailComponent {
         this.isLoading.set(false);
       }
     })
+  }
+
+  goBack(){
+    this.location.back()
   }
 }

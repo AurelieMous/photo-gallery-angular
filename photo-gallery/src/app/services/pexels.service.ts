@@ -4,7 +4,7 @@ import {environment} from '../environments/environment';
 import {PexelsResponse, Photo} from '../models/photo.interface';
 import {Observable} from 'rxjs';
 import {Collection, CollectionDetail, PexelsResponseCollections} from '../models/collection.interface';
-import {ResponseVideos} from '../models/video.interface';
+import {ResponseVideos, Video} from '../models/video.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -68,5 +68,11 @@ export class PexelsService {
     return this.http.get<ResponseVideos>(`${this.apiKeyVideos}/videos/popular?page=${page}&per_page=${per_page}`, {
       headers: { 'Authorization': this.apiKey }
     })
+  }
+
+  // Récupérer une video par son id
+  getOneVideo(id: number): Observable<Video> {
+    return this.http.get<Video>(`${this.apiKeyVideos}/videos/videos/${id}`,
+      { headers: { 'Authorization': this.apiKey } })
   }
 }

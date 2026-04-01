@@ -1,42 +1,45 @@
 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
   <!-- Container vidéo/image -->
-  <div class="relative p-3"
-       (mouseenter)="playVideo()"
-       (mouseleave)="pauseVideo()">
+  <a [routerLink]="['/videos', video().id]" queryParamsHandling="preserve">
 
-    <!-- Image (cachée quand la vidéo joue) -->
-    <img
-      [src]="video().image"
-      [alt]="'Aperçu de la vidéo'"
-      class="w-full h-[500px] object-cover rounded transition-opacity duration-300"
-      [class.opacity-0]="isPlaying"
-      [class.opacity-100]="!isPlaying"
-    />
+    <div class="relative p-3"
+         (mouseenter)="playVideo()"
+         (mouseleave)="pauseVideo()">
 
-    <!-- Vidéo (toujours présente, cachée par défaut) -->
-    <video
-      #videoPlayer
-      [src]="videoUrl()"
-      muted
-      loop
-      playsinline
-      preload="metadata"
-      class="absolute top-3 left-3 right-3 w-[calc(100%-24px)] h-[500px] object-cover rounded transition-opacity duration-300"
-      [class.opacity-0]="!isPlaying"
-      [class.opacity-100]="isPlaying"
-    ></video>
+      <!-- Image (cachée quand la vidéo joue) -->
+      <img
+        [src]="video().image"
+        [alt]="'Aperçu de la vidéo'"
+        class="w-full h-[500px] object-cover rounded transition-opacity duration-300"
+        [class.opacity-0]="isPlaying"
+        [class.opacity-100]="!isPlaying"
+      />
 
-    <!-- Icône Play (visible au hover, cachée pendant la lecture) -->
-    <div class="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300"
-         [class.opacity-0]="isPlaying">
-      <div class="bg-white/90 rounded-full p-6 group-hover:scale-110 transition-transform shadow-xl">
-        <svg class="w-16 h-16 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
-        </svg>
+      <!-- Vidéo (toujours présente, cachée par défaut) -->
+      <video
+        #videoPlayer
+        [src]="videoUrl()"
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        class="absolute top-3 left-3 right-3 w-[calc(100%-24px)] h-[500px] object-cover rounded transition-opacity duration-300"
+        [class.opacity-0]="!isPlaying"
+        [class.opacity-100]="isPlaying"
+      ></video>
+
+      <!-- Icône Play (visible au hover, cachée pendant la lecture) -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300"
+           [class.opacity-0]="isPlaying">
+        <div class="bg-white/90 rounded-full p-6 group-hover:scale-110 transition-transform shadow-xl">
+          <svg class="w-16 h-16 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+          </svg>
+        </div>
       </div>
     </div>
-  </div>
 
+  </a>
   <!-- Info vidéo -->
   <div class="px-6 pb-6">
     <p class="text-base text-gray-600 mb-2">

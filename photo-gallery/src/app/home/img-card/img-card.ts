@@ -10,6 +10,7 @@ import {RouterLink} from '@angular/router';
   ],
   templateUrl: './img-card.html',
   styleUrl: './img-card.css',
+  standalone: true
 })
 export class ImgCardComponent {
   photo = input.required<Photo>()// recoit les donnée du parent

@@ -4,9 +4,12 @@ import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-videos-card',
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './videos-card.html',
   styleUrl: './videos-card.css',
+  standalone: true
 })
 export class VideosCardComponent {
   video = input.required<Video>();

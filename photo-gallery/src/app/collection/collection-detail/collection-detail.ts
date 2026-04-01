@@ -15,6 +15,7 @@ import {PaginationComponent} from '../../shared/pagination/pagination';
 import {ErrorStateComponent} from '../../shared/error-state/error-state';
 import {VideosCardComponent} from '../../videos/videos-card/videos-card';
 import {separateAndConvertMedia} from '../../helpers/media.helpers';
+import {Video} from '../../models/video.interface';
 
 @Component({
   selector: 'app-collection-detail',
@@ -42,7 +43,7 @@ export class CollectionDetailComponent implements OnInit {
 
   // Médias filtrés
   photos = signal<Photo[]>([]);
-  videos = signal<Media[]>([]);
+  videos = signal<Video[]>([]);
 
   // gérer les paginations
   currentPage = signal<number>(1);

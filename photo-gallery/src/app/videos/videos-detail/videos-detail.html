@@ -5,13 +5,13 @@
     </div>
   } @else if (error()) {
     <app-error-state
-      [title]="'Photo introuvable'"
+      [title]="'Vidéo introuvable'"
       [message]="error()"
-      [buttonText]="'Retour aux photos'"
-      [buttonLink]="'/'"
+      [buttonText]="'Retour aux vidéos'"
+      [buttonLink]="'/videos'"
     />
-  } @else if (photo()) {
-    <!-- Photo details -->
+  } @else if (video()) {
+    <!-- Video details -->
     <div class="max-w-7xl mx-auto">
       <!-- Header with back button -->
       <div class="mb-8">
@@ -25,69 +25,41 @@
         </button>
       </div>
 
-      <!-- Layout 2 colonnes : Photo + Infos -->
+      <!-- Layout 2 colonnes : Vidéo + Infos -->
       <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
 
-          <!-- COLONNE GAUCHE : Image -->
-          <div class="relative bg-gray-100">
-            <img
-              [src]="photo()!.src.large2x"
-              [alt]="photo()!.alt"
-              class="w-full h-full object-cover"
-              [style.background-color]="photo()!.avg_color"
-            />
-
-            <!-- Like badge -->
-            @if (photo()!.liked) {
-              <div class="absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
-                </svg>
-                <span class="font-semibold">Aimée</span>
-              </div>
-            }
+          <!-- COLONNE GAUCHE : Vidéo -->
+          <div class="relative bg-black flex items-center justify-center min-h-[400px] lg:min-h-[600px]">
+            <video
+              #videoPlayer
+              [src]="videoUrl()"
+              controls
+              loop
+              class="w-full h-full object-contain"
+            >
+              Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
           </div>
 
           <!-- COLONNE DROITE : Informations -->
           <div class="p-8 lg:p-10 flex flex-col">
 
-            <!-- Title & Description -->
-            <div class="mb-6">
-              <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                {{ photo()!.alt || 'Photo sans description' }}
-              </h1>
-
-              <!-- Color badge -->
-              <div class="flex items-center gap-3">
-                <span class="text-sm text-gray-600">Couleur dominante :</span>
-                <div class="flex items-center gap-2">
-                  <div
-                    class="w-8 h-8 rounded-full border-2 border-gray-300 shadow-inner"
-                    [style.background-color]="photo()!.avg_color">
-                  </div>
-                  <span class="font-mono text-sm text-gray-700 bg-gray-100 px-3 py-1 rounded">
-                    {{ photo()!.avg_color }}
-                  </span>
-                </div>
-              </div>
-            </div>
-
             <!-- Photographer info -->
-            <div class="border-t border-gray-200 pt-6 mb-6">
+            <div class="mb-6">
               <div class="flex items-start gap-4">
                 <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xl font-bold shadow-lg flex-shrink-0">
-                  {{ photo()!.photographer.charAt(0).toUpperCase() }}
+                  {{ video()!.user.name.charAt(0).toUpperCase() }}
                 </div>
 
                 <div class="flex-1 min-w-0">
-                  <p class="text-sm text-gray-500 mb-1">Photographe</p>
+                  <p class="text-sm text-gray-500 mb-1">Vidéaste</p>
                   <h2 class="text-lg font-bold text-gray-900 mb-2 truncate">
-                    {{ photo()!.photographer }}
+                    {{ video()!.user.name }}
                   </h2>
 
-                  <a
-                  [href]="photo()!.photographer_url"
+
+                  <a [href]="video()!.user.url"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium transition-colors group text-sm">
@@ -104,7 +76,7 @@
             <div class="border-t border-gray-200 pt-6 mb-6">
               <h3 class="text-lg font-semibold text-gray-900 mb-4">Informations techniques</h3>
 
-              <div class="grid grid-cols-3 gap-3">
+              <div class="grid grid-cols-2 gap-3">
                 <!-- Dimensions -->
                 <div class="bg-gray-50 rounded-lg p-3 text-center">
                   <svg class="w-5 h-5 text-gray-600 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -112,29 +84,40 @@
                   </svg>
                   <p class="text-xs text-gray-600 mb-1">Dimensions</p>
                   <p class="text-sm font-bold text-gray-900">
-                    {{ photo()!.width }}×{{ photo()!.height }}
+                    {{ video()!.width }}×{{ video()!.height }}
                   </p>
                 </div>
 
-                <!-- Photo ID -->
+                <!-- Durée -->
+                <div class="bg-gray-50 rounded-lg p-3 text-center">
+                  <svg class="w-5 h-5 text-gray-600 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <p class="text-xs text-gray-600 mb-1">Durée</p>
+                  <p class="text-sm font-bold text-gray-900">
+                    {{ formatDuration(video()!.duration) }}
+                  </p>
+                </div>
+
+                <!-- Video ID -->
                 <div class="bg-gray-50 rounded-lg p-3 text-center">
                   <svg class="w-5 h-5 text-gray-600 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/>
                   </svg>
-                  <p class="text-xs text-gray-600 mb-1">ID Photo</p>
+                  <p class="text-xs text-gray-600 mb-1">ID Vidéo</p>
                   <p class="text-sm font-bold text-gray-900 font-mono">
-                    #{{ photo()!.id }}
+                    #{{ video()!.id }}
                   </p>
                 </div>
 
-                <!-- Photographer ID -->
+                <!-- User ID -->
                 <div class="bg-gray-50 rounded-lg p-3 text-center">
                   <svg class="w-5 h-5 text-gray-600 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                   </svg>
-                  <p class="text-xs text-gray-600 mb-1">Photographe</p>
+                  <p class="text-xs text-gray-600 mb-1">Vidéaste</p>
                   <p class="text-sm font-bold text-gray-900 font-mono">
-                    #{{ photo()!.photographer_id }}
+                    #{{ video()!.user.id }}
                   </p>
                 </div>
               </div>
@@ -144,38 +127,38 @@
             <div class="border-t border-gray-200 pt-6 mb-6">
               <h3 class="text-lg font-semibold text-gray-900 mb-4">Télécharger</h3>
 
-              <div class="grid grid-cols-2 gap-2">
-                <a
-                [href]="photo()!.src.original"
-                target="_blank"
-                class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-3 py-2 rounded-lg text-center text-sm font-medium hover:from-blue-700 hover:to-blue-800 transition-all shadow-md hover:shadow-lg">
-                Original
-                </a>
-                <a
-                [href]="photo()!.src.large2x"
-                target="_blank"
-                class="bg-gradient-to-r from-purple-600 to-purple-700 text-white px-3 py-2 rounded-lg text-center text-sm font-medium hover:from-purple-700 hover:to-purple-800 transition-all shadow-md hover:shadow-lg">
-                Large 2x
-                </a>
-                <a
-                [href]="photo()!.src.large"
-                target="_blank"
-                class="bg-gradient-to-r from-pink-600 to-pink-700 text-white px-3 py-2 rounded-lg text-center text-sm font-medium hover:from-pink-700 hover:to-pink-800 transition-all shadow-md hover:shadow-lg">
-                Large
-                </a>
-                <a
-                [href]="photo()!.src.medium"
-                target="_blank"
-                class="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white px-3 py-2 rounded-lg text-center text-sm font-medium hover:from-indigo-700 hover:to-indigo-800 transition-all shadow-md hover:shadow-lg">
-                Medium
-                </a>
+              <div class="space-y-2">
+                @for (file of video()!.video_files; track file.id) {
+                  <button
+                    (click)="downloadVideo(file)"
+                    class="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-blue-600 rounded-lg transition-all group">
+                    <div class="flex items-center gap-3">
+                      <svg class="w-5 h-5 text-gray-600 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                      </svg>
+                      <div class="text-left">
+                        <p class="font-semibold text-gray-900 group-hover:text-blue-600 text-sm">
+                          {{ file.quality.toUpperCase() }}
+                        </p>
+                        @if (file.width && file.height) {
+                          <p class="text-xs text-gray-500">
+                            {{ file.width }} × {{ file.height }}
+                          </p>
+                        }
+                      </div>
+                    </div>
+                    <svg class="w-5 h-5 text-gray-400 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </button>
+                }
               </div>
             </div>
 
             <!-- View on Pexels -->
             <div class="mt-auto pt-4 border-t border-gray-200 text-center">
-              <a
-              [href]="photo()!.url"
+
+              <a [href]="video()!.url"
               target="_blank"
               rel="noopener noreferrer"
               class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors text-sm">
