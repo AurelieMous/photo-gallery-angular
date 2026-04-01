@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {PexelsResponse, Photo} from '../models/photo.interface';
 import {Observable} from 'rxjs';
-import {Collection, CollectionDetail, PexelsResponseCollections} from '../models/collection.interface';
+import {CollectionDetail, PexelsResponseCollections} from '../models/collection.interface';
 import {ResponseVideos, Video} from '../models/video.interface';
 
 @Injectable({
@@ -74,5 +74,12 @@ export class PexelsService {
   getOneVideo(id: number): Observable<Video> {
     return this.http.get<Video>(`${this.apiKeyVideos}/videos/videos/${id}`,
       { headers: { 'Authorization': this.apiKey } })
+  }
+
+  // Recherché videos avec mots clés
+  searchVideos(query: string, page: number = 1, per_page: number = 80): Observable<ResponseVideos> {
+    return this.http.get<ResponseVideos>(`${this.apiUrl}/videos/search?query=${query}&${page}&per_page=${per_page}&fr-FR`, {
+      headers: { 'Authorization': this.apiKey }
+    });
   }
 }

@@ -1,5 +1,5 @@
 import {Component, computed, inject, signal} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {PexelsService} from '../../services/pexels.service';
 import {Video} from '../../models/video.interface';
 import { Location } from '@angular/common';
@@ -9,7 +9,6 @@ import {ErrorStateComponent} from '../../shared/error-state/error-state';
   selector: 'app-videos-detail',
   imports: [
     ErrorStateComponent,
-    RouterLink
   ],
   templateUrl: './videos-detail.html',
   styleUrl: './videos-detail.css',
@@ -18,7 +17,6 @@ import {ErrorStateComponent} from '../../shared/error-state/error-state';
 export class VideosDetailComponent {
   private pexelsService = inject(PexelsService);
   route = inject(ActivatedRoute);
-  private router = inject(Router);
   private location = inject(Location);
 
 

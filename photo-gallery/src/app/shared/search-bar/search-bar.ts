@@ -1,5 +1,4 @@
-import {Component, inject, OnInit, output, signal} from '@angular/core';
-import {PexelsService} from '../../services/pexels.service';
+import {Component, inject, OnInit, output} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 
@@ -10,6 +9,7 @@ import {ActivatedRoute} from '@angular/router';
   ],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.css',
+  standalone: true
 })
 export class SearchBarComponent implements OnInit{
   private route = inject(ActivatedRoute);

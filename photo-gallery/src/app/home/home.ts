@@ -2,7 +2,7 @@ import {Component, inject, OnInit, signal} from '@angular/core';
 import {PexelsService} from '../services/pexels.service';
 import {Photo} from '../models/photo.interface';
 import {ImgCardComponent} from './img-card/img-card';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SearchBarComponent} from '../shared/search-bar/search-bar';
 import {FormsModule} from '@angular/forms';
 import {PaginationComponent} from '../shared/pagination/pagination';
@@ -14,6 +14,7 @@ import {ErrorStateComponent} from '../shared/error-state/error-state';
   imports: [ImgCardComponent, SearchBarComponent, FormsModule, PaginationComponent, ErrorStateComponent],
   templateUrl: './home.html',
   styleUrl: './home.css',
+  standalone: true
 })
 export class HomeComponent implements OnInit {
 
@@ -87,13 +88,14 @@ export class HomeComponent implements OnInit {
 
     this.pexelsService.getPhotos(page, this.perPage).subscribe({
       next: (data) => {
-        this.photos.set(data.photos);
+        this.photos.set(data.photos || []);
         this.totalResults.set(data.total_results);
         this.isLoading.set(false);
       },
       error: (err) => {
         this.error.set(`Impossible de charger les photos : ${err.message}`);
         this.isLoading.set(false);
+        this.photos.set([]);
       }
     });
   }
@@ -102,13 +104,14 @@ export class HomeComponent implements OnInit {
     this.isLoading.set(true);
     this.pexelsService.searchPhotos(query, page, this.perPage).subscribe({
       next: (data) => {
-        this.photos.set(data.photos);
+        this.photos.set(data.photos || []);
         this.totalResults.set(data.total_results);
         this.isLoading.set(false);
       },
       error: (err) => {
         this.error.set(`Impossible de charger les photos recherchées : ${err}`)
         this.isLoading.set(false);
+        this.photos.set([]);
       }
     })
   }

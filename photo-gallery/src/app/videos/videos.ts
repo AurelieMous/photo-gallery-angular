@@ -3,7 +3,6 @@ import {PexelsService} from '../services/pexels.service';
 import {Video} from '../models/video.interface';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ErrorStateComponent} from '../shared/error-state/error-state';
-import {ImgCardComponent} from '../home/img-card/img-card';
 import {PaginationComponent} from '../shared/pagination/pagination';
 import {SearchBarComponent} from '../shared/search-bar/search-bar';
 import {VideosCardComponent} from './videos-card/videos-card';
@@ -18,9 +17,10 @@ import {VideosCardComponent} from './videos-card/videos-card';
   ],
   templateUrl: './videos.html',
   styleUrl: './videos.css',
+  standalone: true
 })
 export class VideosComponent implements OnInit{
-  private pexels = inject(PexelsService);
+  private pexelsService = inject(PexelsService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -30,26 +30,47 @@ export class VideosComponent implements OnInit{
   currentPage = signal<number>(1);
   totalResults = signal<number>(0);
   perPage = 80;
+  currentSearch = signal<string>('');
 
   ngOnInit(){
     this.route.queryParams.subscribe(params => {
       const page = Number(params['page']) || 1;
+      const query = params['search'] || '';
+
+      this.currentSearch.set(query);
       this.currentPage.set(page);
 
-      this.loadVideos(page, this.perPage);
-    })
+      if (query) {
+        this.searchVideos(query, page);
+      } else {
+        this.loadVideos(page, this.perPage);
+      }
+    });
   }
 
   private loadVideos(page: number, perPage: number) {
     this.isLoading.set(true);
     this.error.set('');
 
-    this.pexels.getVideos(page, perPage).subscribe({
+    this.pexelsService.getVideos(page, perPage).subscribe({
       next: (data) => {
-        this.videos.set(data.videos);
+        this.videos.set(data.videos || []);
         this.totalResults.set(data.total_results);
         this.isLoading.set(false);
       },
+      error: (err) => {
+        this.error.set(`Impossible de charger les videos : ${err.message}`);
+        this.isLoading.set(false);
+        this.videos.set([]);
+      }
+    })
+  }
+
+  search(query: string) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {search: query},
+      queryParamsHandling: ''
     })
   }
 
@@ -63,6 +84,22 @@ export class VideosComponent implements OnInit{
       relativeTo: this.route,
       queryParams,
       queryParamsHandling: ''
+    })
+  }
+
+  private searchVideos(query: string, page: number = 1) {
+    this.isLoading.set(true);
+    this.pexelsService.searchVideos(query, page, this.perPage).subscribe({
+      next: (data) => {
+        this.videos.set(data.videos || []);
+        this.totalResults.set(data.total_results);
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        this.error.set(`Impossible de charger les videos recherchées : ${err.message}`)
+        this.isLoading.set(false);
+        this.videos.set([]);
+      }
     })
   }
 }
