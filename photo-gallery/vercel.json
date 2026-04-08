@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/photo-gallery/browser",
+  "framework": "angular",
+  "installCommand": "npm install"
+}
