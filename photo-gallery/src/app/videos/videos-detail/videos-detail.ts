@@ -47,7 +47,6 @@ export class VideosDetailComponent {
     this.isLoading.set(true);
 
     const idString : string | null = this.route.snapshot.paramMap.get('id');
-    console.log('idString:', idString);
     if (!idString) {
       this.error.set('Aucun ID fourni');
       this.isLoading.set(false);

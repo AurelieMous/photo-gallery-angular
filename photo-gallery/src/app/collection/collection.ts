@@ -58,7 +58,6 @@ export class CollectionComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.pexelsService.getCollections(url).subscribe({
       next: (data) => {
-        console.log('next_page reçu:', data.next_page);
         // update() au lieu de set() pour AJOUTER les nouvelles collections
         // aux existantes plutôt que de les remplacer
         this.collections.update(current => [...current, ...data.collections]);

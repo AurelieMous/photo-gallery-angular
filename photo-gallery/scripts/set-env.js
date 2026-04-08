@@ -1,4 +1,4 @@
-const replace = require('replace-in-file');
+const { replaceInFile } = require('replace-in-file');
 
 const pexelsApiKey = process.env.PEXELS_API_KEY || '';
 const pexelsApiUrl = process.env.PEXELS_API_URL || 'https://api.pexels.com/v1';
@@ -18,7 +18,7 @@ const options = {
   ],
 };
 
-replace(options)
+replaceInFile(options)
   .then(results => {
     console.log('Environment variables replaced successfully');
     console.log('Modified files:', results.map(r => r.file).join(', '));
