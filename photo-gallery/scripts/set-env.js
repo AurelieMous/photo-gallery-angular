@@ -5,7 +5,7 @@ const pexelsApiUrl = process.env.PEXELS_API_URL || 'https://api.pexels.com/v1';
 const pexelsApiUrlVideos = process.env.PEXELS_API_URL_VIDEOS || 'https://api.pexels.com/videos';
 
 const options = {
-  files: 'src/environments/environment.prod.ts',
+  files: 'src/app/environments/environment.prod.ts',
   from: [
     /pexelsApiKey: ''/g,
     /pexelsApiUrl: ''/g,
